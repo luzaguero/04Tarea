@@ -1,14 +1,20 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import numpy as np
+G=1
+M=1
+m=1
+
 class Planeta(object):
     '''
-    Complete el docstring.
+    Simula, con opcion de 3 distintos metodos de integracion (Euler, Runge-Kutta4 y Verlet),
+    el movimiento de un planeta que orbita al rededor del Sol, usando como base su pontecial.
     '''
 
     def __init__(self, condicion_inicial, alpha=0):
         '''
-        __init__ es un método especial que se usa para inicializar las
+        __init__ es un metodo especial que se usa para inicializar las
         instancias de una clase.
 
         Ej. de uso:
@@ -22,13 +28,14 @@ class Planeta(object):
 
     def ecuacion_de_movimiento(self):
         '''
-        Implementa la ecuación de movimiento, como sistema de ecuaciónes de
+        Implementa la ecuacion de movimiento, como sistema de ecuaciones de
         primer orden.
         '''
         x, y, vx, vy = self.y_actual
-        # fx = ...
-        # fy = ...
-        return [vx, vy, fx, fy]
+        fx=lambda x,y,t: G*M*x*((2*self.alpha)/((x**2 + y**2)**2) - 1/((np.sqrt(x**2 + y**2))**3))
+        fy=lambda x,y,t: G*M*y*((2*self.alpha)/((x**2 + y**2)**2) - 1/((np.sqrt(x**2 + y**2))**3))
+
+        return np.array([vx, vy, fx, fy])
 
     def avanza_euler(self, dt):
         '''
